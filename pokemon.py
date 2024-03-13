@@ -1,5 +1,5 @@
 import abilities
-
+import random
 class Poke():
     def __init__(self, name, element, hp, atk, defense):
         self.name = name
@@ -11,7 +11,7 @@ class Poke():
         #P stands for Power Points, essentially the stamina a pokemon has
         #it usually knows as PP but to avoid that we'll just call it P
         #on second thought we wont use P
-        self.move_set = []
+        self.move_set = self.moves()
         self.buff_debuff = []
         #this is where we will keep our buffs or debuffs so we can apply them to the pokemon
 
@@ -19,3 +19,6 @@ class Poke():
         
 
     #def swap_pokemon(self): this is here just incase
+    #Fire Water Grass Electric Water Normal
+    # def moves(self):
+        # if self.element == "Normal":
