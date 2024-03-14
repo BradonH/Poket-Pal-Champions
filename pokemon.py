@@ -11,7 +11,7 @@ class Poke():
         #P stands for Power Points, essentially the stamina a pokemon has
         #it usually knows as PP but to avoid that we'll just call it P
         #on second thought we wont use P
-        self.move_set = self.moves()
+        self.move_set = []
         self.buff_debuff = []
         #this is where we will keep our buffs or debuffs so we can apply them to the pokemon
 
