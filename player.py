@@ -6,5 +6,5 @@ class Player():
         self.poke_list = {}
         self.items = {}
 
-    #def swap_pokemon(self): i think this is better here
+    #def swap_pokemon(self): I think this is better here
         
