@@ -5,8 +5,13 @@ import player
 import time
 import random
 
+#items do not work yet and each player only has one pokemon in each battle
+
 #create functions
-def play_start():
+def play_start(current_turn):
+    print()
+    print(f"It is currently {current_turn.name}'s turn")
+    print()
     print("Please input id number of action wanted")
     print("""1.Attack          2.Items (unavaliable)
           3.Swap Pokemon (unavalible)""")
@@ -19,10 +24,12 @@ def play_start():
 
 
 def attack():
+    print()
     print("Please input id number of attack wanted")
     print(f"""1.{current_turn.poke_list[current_turn.primary].move_set[0].name}          2.{current_turn.poke_list[current_turn.primary].move_set[1].name}
 3.{current_turn.poke_list[current_turn.primary].move_set[2].name}           4.{current_turn.poke_list[current_turn.primary].move_set[3].name}
 5. Return to action selection menu""")
+    print()
     selection = int(input())
     #HERES THE PROBLEM
     if selection != 1 and selection != 2 and selection != 3 and selection != 4:
@@ -59,11 +66,9 @@ def attack():
 
 def play_swap(current_turn):
     if current_turn == play_1:
-        current_turn = play_2
-        return current_turn
+        return play_2
     else:
-        current_turn = play_1
-        return current_turn
+        return play_1
 
 
 
@@ -198,8 +203,8 @@ time.sleep(3)
 
 
 while play_1.alive == True and play_2.alive == True:
-    play_start()
-    play_swap(current_turn)
+    play_start(current_turn)
+    current_turn = play_swap(current_turn)
 
 print()
 print("We have a winner!")
