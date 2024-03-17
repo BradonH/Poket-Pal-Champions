@@ -10,9 +10,9 @@ def play_start():
     print("Please input id number of action wanted")
     print("""1.Attack          2.Items (unavaliable)
           3.Swap Pokemon (unavalible)""")
-    selection = input()
+    selection = int(input())
     if selection == 1:
-        return attack()
+        attack()
     else:
         print("input not defined please input an avaliable id number")
         play_start()
@@ -23,9 +23,9 @@ def attack():
     print(f"""1.{current_turn.poke_list[current_turn.primary].move_set[0].name}          2.{current_turn.poke_list[current_turn.primary].move_set[1].name}
 3.{current_turn.poke_list[current_turn.primary].move_set[2].name}           4.{current_turn.poke_list[current_turn.primary].move_set[3].name}
 5. Return to action selection menu""")
-    selection = input()
+    selection = int(input())
     #HERES THE PROBLEM
-    if selection != 1 or selection != 2 or selection != 3 or selection != 4:
+    if selection != 1 and selection != 2 and selection != 3 and selection != 4:
         if selection == 5:
             play_start()
         else:
@@ -42,7 +42,7 @@ def attack():
             opp = play_1
         if random.randint(0,100) < acy:
             coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].atk))/100)
-            def_coefficient = int(current_turn.poke_list[current_turn.primary].defense)
+            def_coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].defense))/100)
             opp.poke_list[opp.primary].hp -= (dmg * coefficient)/def_coefficient
             opp.poke_list[opp.primary].debuff.append(dbf)
             current_turn.poke_list[current_turn.primary].buff.append(buf)
@@ -50,17 +50,14 @@ def attack():
                 opp.alive = False
                 pass
             else:
-                play_swap()
-                play_start()
+                pass
         else:
             print("The attack missed!")
-        play_swap()
-        play_start()
 
 
 
 
-def play_swap():
+def play_swap(current_turn):
     if current_turn == play_1:
         current_turn = play_2
         return current_turn
@@ -193,14 +190,24 @@ for i in poke_dict:
 
 play_2.poke_list.append(poke_dict[int(input("Please enter desired Pokemon: "))])
 
-current_turn = play_2
+current_turn = play_1
 
 print()
 print("The contests have chosen and the stage is set may, the best contestant win!")
-attack()
 time.sleep(3)
 
 
 while play_1.alive == True and play_2.alive == True:
     play_start()
+    play_swap(current_turn)
+
+print()
+print("We have a winner!")
+time.sleep(3)
+if play_1.alive == True:
+    print(f"Congratulations {play_1.name}, you are the pokemon champion!")
+else:
+    print(f"Congratulations {play_2.name}, you are the pokemon champion!")
+time.sleep(2)
+print("Thank you for playing Poket-Pal Champions, we hope to better this game and add more customization and polish to it in the near future!")
 
