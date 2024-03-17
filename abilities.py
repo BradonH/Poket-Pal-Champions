@@ -1,11 +1,12 @@
 #import main
 
 class Abilities():
-    def __init__(self, damage, accuarcy, buff, debuff):
+    def __init__(self, damage, accuarcy, buff, debuff, name):
         self.damage = damage
         self.accuarcy = accuarcy
         self.buff = buff
         self.debuff = debuff
+        self.name = name
         # self.norm_list = []
         # self.fire_dict = []
         # self.water_dict = []
