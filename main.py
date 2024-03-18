@@ -50,7 +50,9 @@ def attack():
         if random.randint(0,100) < acy:
             coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].atk))/100)
             def_coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].defense))/100)
-            opp.poke_list[opp.primary].hp -= (dmg * coefficient)/def_coefficient
+            opp.poke_list[opp.primary].hp -= round((dmg * coefficient)/def_coefficient,0)
+            print()
+            print(f"Hit! {opp.poke_list[opp.primary].name} now has {str(opp.poke_list[opp.primary].hp)} remaining!")
             opp.poke_list[opp.primary].debuff.append(dbf)
             current_turn.poke_list[current_turn.primary].buff.append(buf)
             if opp.poke_list[opp.primary].hp <= 0:
@@ -198,7 +200,7 @@ play_2.poke_list.append(poke_dict[int(input("Please enter desired Pokemon: "))])
 current_turn = play_1
 
 print()
-print("The contests have chosen and the stage is set may, the best contestant win!")
+print("The contests have chosen and the stage is now set, may the best contestant win!")
 time.sleep(3)
 
 
@@ -215,4 +217,3 @@ else:
     print(f"Congratulations {play_2.name}, you are the pokemon champion!")
 time.sleep(2)
 print("Thank you for playing Poket-Pal Champions, we hope to better this game and add more customization and polish to it in the near future!")
-
