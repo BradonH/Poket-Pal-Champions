@@ -14,7 +14,7 @@ def play_start(current_turn):
     print()
     print("Please input id number of action wanted")
     print("""1.Attack          2.Items (unavaliable)
-          3.Swap Pokemon (unavalible)""")
+3.Swap Pokemon (unavalible)""")
     selection = int(input())
     if selection == 1:
         attack()
@@ -179,6 +179,7 @@ print("To continue hit enter...")
 
 input()
 
+#player 1 slecting pokemon
 print(f"{play_1.name}, please select a pokemon, the first pokemon selected will be your primary pokemon (enter id number of pokemon wanted)")
 print()
 count = 0
@@ -186,17 +187,18 @@ count = 0
 for i in poke_dict:
     count += 1
     print(f"{count}. {str(poke_dict[count].name)}, press {count} to select this pokemon")
-
 play_1.poke_list.append(poke_dict[int(input("Please enter desired Pokemon: "))])
+
+#player 2 selecting pokemon
 print(f"{play_2.name}, please select a pokemon, the first pokemon selected will be your primary pokemon (enter id number of pokemon wanted)")
 print()
 count = 0
 for i in poke_dict:
     count += 1
     print(f"{count}. {str(poke_dict[count].name)}, press {count} to select this pokemon")
-
 play_2.poke_list.append(poke_dict[int(input("Please enter desired Pokemon: "))])
 
+#might change to a coin toss instead
 current_turn = play_1
 
 print()
