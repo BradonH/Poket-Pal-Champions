@@ -7,6 +7,7 @@ import random
 
 #items do not work yet and each player only has one pokemon in each battle
 
+
 #create pokemon objects
 charmander = pokemon.Poke("Charmander", "Fire", 45, 53, 45)
 squirtle = pokemon.Poke("Squirtle", "Water", 50, 48, 65)
@@ -23,6 +24,7 @@ poke_dict = {1: charmander,
              5: snorlax,
              6: magikarp,
              }
+
 
 #create abilities object
 #Normal
@@ -43,6 +45,7 @@ frustration = abilities.Abilities(0, 100, "FSTRIN", None, "frustrartion")
 #Debuffs
 poison = abilities.Abilities(0, 100, None, "POSN", "poison")
 drowsy = abilities.Abilities(0, 100, None, "DRSY", "drowsy")
+burn = abilities.Abilities(0, 100, "BURN", "burn")
 
 
 #specials moves
@@ -151,6 +154,12 @@ def use_item(selection):
             current_turn.poke_list[current_turn.primary].hp += item.heal
         elif item.
 """
+
+
+
+#def buff_debuff_value_calculations():
+#    current_turn.poke_list[current_turn.primary].atk = current_turn.poke_list[current_turn.primary].calc_value_atk()
+
 
 #lists available attack options,and takes selection
 
