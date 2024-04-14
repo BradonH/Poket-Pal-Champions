@@ -1,5 +1,5 @@
 import abilities
-#import item
+import item
 import pokemon
 import player
 import time
@@ -7,80 +7,12 @@ import random
 
 #items do not work yet and each player only has one pokemon in each battle
 
-#create functions
-def play_start(current_turn):
-    print()
-    print(f"It is currently {current_turn.name}'s turn")
-    print()
-    print("Please input id number of action wanted")
-    print("""1.Attack          2.Items (unavaliable)
-3.Swap Pokemon (unavalible)""")
-    selection = int(input())
-    if selection == 1:
-        attack()
-    else:
-        print("input not defined please input an avaliable id number")
-        play_start()
-
-
-def attack():
-    print()
-    print("Please input id number of attack wanted")
-    print(f"""1.{current_turn.poke_list[current_turn.primary].move_set[0].name}          2.{current_turn.poke_list[current_turn.primary].move_set[1].name}
-3.{current_turn.poke_list[current_turn.primary].move_set[2].name}           4.{current_turn.poke_list[current_turn.primary].move_set[3].name}
-5. Return to action selection menu""")
-    print()
-    selection = int(input())
-    #HERES THE PROBLEM
-    if selection != 1 and selection != 2 and selection != 3 and selection != 4:
-        if selection == 5:
-            play_start()
-        else:
-            print("please select an available id")
-            attack()
-    else:
-        dmg = current_turn.poke_list[current_turn.primary].move_set[int(selection-1)].damage
-        acy = current_turn.poke_list[current_turn.primary].move_set[int(selection-1)].accuracy
-        buf = current_turn.poke_list[current_turn.primary].move_set[int(selection-1)].buff
-        dbf = current_turn.poke_list[current_turn.primary].move_set[int(selection-1)].debuff
-        if current_turn == play_1:
-            opp = play_2
-        else:
-            opp = play_1
-        if random.randint(0,100) < acy:
-            coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].atk))/100)
-            def_coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].defense))/100)
-            opp.poke_list[opp.primary].hp -= round((dmg * coefficient)/def_coefficient,0)
-            print()
-            print(f"Hit! {opp.poke_list[opp.primary].name} now has {str(opp.poke_list[opp.primary].hp)} remaining!")
-            opp.poke_list[opp.primary].debuff.append(dbf)
-            current_turn.poke_list[current_turn.primary].buff.append(buf)
-            if opp.poke_list[opp.primary].hp <= 0:
-                opp.alive = False
-                pass
-            else:
-                pass
-        else:
-            print("The attack missed!")
-
-
-
-
-def play_swap(current_turn):
-    if current_turn == play_1:
-        return play_2
-    else:
-        return play_1
-
-
-
-
 #create pokemon objects
 charmander = pokemon.Poke("Charmander", "Fire", 45, 53, 45)
 
 squirtle = pokemon.Poke("Squirtle", "Water", 50, 48, 65)
 
-#bulbasaur = pokemon.Poke("Bulbasuar", "Grass", 50, 50, 50)
+bulbasaur = pokemon.Poke("Bulbasuar", "Grass", 50, 50, 50)
 
 #pikachu = pokemon.Poke("Pikachu", "Electric", 40, 65, 40)
 
@@ -88,8 +20,10 @@ squirtle = pokemon.Poke("Squirtle", "Water", 50, 48, 65)
 
 #magikarp = pokemon.Poke("Magikarp", "Water", 60, 20, 50)
 
+#Put all pokemon objects into a dictionary to be called
 poke_dict = {1: charmander,
-             2: squirtle}
+             2: squirtle,}
+
 #create abilities object
 #Normal
 tackle = abilities.Abilities(20, 95, None, None, "tackle")
@@ -127,13 +61,156 @@ squirtle.move_set.append(vine_whip)
 #create item object
 # moo_moo_milk
 # cure
+# pure_water
+# revive
 
 
 #create player object
 play_1 = player.Player()
 play_2 = player.Player()
-print()
-print("Welcome to...")
+
+
+### THIS IS WHERE THE FUNCTIONS ARE ###
+
+
+#Current turn is defined here
+current_turn = play_1
+#Play swap cahnges the value of current turn, allowing a turn based game loop
+def play_swap(current_turn):
+    if current_turn == play_1:
+        return play_2
+    else:
+        return play_1
+
+
+#This is gives the player a selection of actions available at the start of each turn
+def play_start(current_turn):
+    print()
+    print(f"It is currently {current_turn.name}'s turn")
+    print()
+    print("Please input id number of action wanted")
+    print("""1.Attack          2.Items (unavaliable)
+3.Swap Pokemon (unavalible)""")
+    selection = int(input())
+    if selection == 1:
+        attack()
+    else:
+        print("input not defined please input an avaliable id number")
+        play_start()
+
+
+#if items are chosen during play_start, this will show what items are available
+def item_selection():
+    if len(current_turn.items) == 0:
+        print("\nYou have no items!\n")
+        time.sleep(2)
+        play_start(current_turn)
+    else:
+        counter = 0
+        print("\n Please select item to use\n")
+        for item in current_turn.items:
+            counter += 1
+            print(f"{str(counter)}. {str(item)}")
+        print(f"{str(counter+1)}")
+
+#this USES the selected item i first need to select the item to know what data i will be working with
+"""
+def use_item(selection):
+    if selection > len(current_turn.items) or type(selection) != type(int(1)):
+        print("This is not a valid item!")
+        time.sleep(1)
+        play_start(current_turn)
+    else:
+        if item.heal != 0:
+            current_turn.poke_list[current_turn.primary].hp += item.heal
+        elif item.
+"""
+
+#lists available attack options,and takes selection
+
+def attack():
+    print()
+    print("Please input id number of attack wanted")
+    print(f"""1.{current_turn.poke_list[current_turn.primary].move_set[0].name}          2.{current_turn.poke_list[current_turn.primary].move_set[1].name}
+3.{current_turn.poke_list[current_turn.primary].move_set[2].name}                4.{current_turn.poke_list[current_turn.primary].move_set[3].name}
+5. Return to action selection menu""")
+    print()
+    selection = int(input())
+    if selection != 1 and selection != 2 and selection != 3 and selection != 4:
+        if selection == 5:
+            play_start()
+        else:
+            print("please select an available id")
+            attack()
+    else:
+        print()
+        damage_calc(selection)
+
+
+#values are calcated and damges are applied to opponents pokemon
+
+def damage_calc(selection):
+    dmg = current_turn.poke_list[current_turn.primary].move_set[int(selection-1)].damage
+    acy = current_turn.poke_list[current_turn.primary].move_set[int(selection-1)].accuracy
+    buf = current_turn.poke_list[current_turn.primary].move_set[int(selection-1)].buff
+    dbf = current_turn.poke_list[current_turn.primary].move_set[int(selection-1)].debuff
+    if current_turn == play_1:
+        opp = play_2
+    else:
+        opp = play_1
+    if random.randint(0,100) < acy:
+        coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].atk))/100)
+        def_coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].defense))/100)
+        opp.poke_list[opp.primary].hp -= round((dmg * coefficient)/def_coefficient,0)
+        if opp.poke_list[opp.primary].hp <= 0:
+            print(f"Hit! {opp.poke_list[opp.primary].name} has fainted!")
+        else:
+            print(f"Hit! {opp.poke_list[opp.primary].name} now has {str(opp.poke_list[opp.primary].hp)} remaining!")
+        opp.poke_list[opp.primary].debuff.append(dbf)
+        current_turn.poke_list[current_turn.primary].buff.append(buf)
+        #if opp.poke_list[opp.primary].hp <= 0:
+        #    opp.alive = False
+        #    pass
+        #else:
+        #    pass
+    else:
+        print("The attack missed!")
+
+
+
+#I run through every pokemon in the lists of both players here to determine if one player loses
+def check_poke_list():
+    play_1_poke = len(play_1.poke_list)
+    play_2_poke = len(play_2.poke_list)
+    count1 = 0
+    count2 = 0
+
+    for poke in play_1.poke_list:
+        if poke.hp <= 0:
+            count1 += 1
+    if count1 == play_1_poke:
+        play_1.alive = False
+        return play_1.alive
+
+    for poke in play_2.poke_list:
+        if poke.hp <= 0:
+            count2 += 1
+    if count2 == play_2_poke:
+        play_2.alive = False
+        return play_2.alive
+
+
+#prints the available selection of pokemon from a dictionary
+def pick_poke(player):
+    print(f"{player.name}, please select a pokemon, the first pokemon selected will be your primary pokemon (enter id number of pokemon wanted)\n")
+    for i in range(len(poke_dict)):
+        print(f"{i+1}. {str(poke_dict[i+1].name)}, press {i+1} to select this pokemon")
+    player.poke_list.append(poke_dict[int(input("\nPlease enter desired Pokemon: "))])
+
+#Intro to game begins here
+
+
+print("\nWelcome to...")
 time.sleep(1)
 print(
 """
@@ -179,39 +256,23 @@ print("To continue hit enter...")
 
 input()
 
-#player 1 slecting pokemon
-print(f"{play_1.name}, please select a pokemon, the first pokemon selected will be your primary pokemon (enter id number of pokemon wanted)")
-print()
-count = 0
-#print list of pokemon that are available for selection
-for i in poke_dict:
-    count += 1
-    print(f"{count}. {str(poke_dict[count].name)}, press {count} to select this pokemon")
-play_1.poke_list.append(poke_dict[int(input("Please enter desired Pokemon: "))])
+#Dictionary is displayed and selection of pokemon happens here
 
-#player 2 selecting pokemon
-print(f"{play_2.name}, please select a pokemon, the first pokemon selected will be your primary pokemon (enter id number of pokemon wanted)")
-print()
-count = 0
-for i in poke_dict:
-    count += 1
-    print(f"{count}. {str(poke_dict[count].name)}, press {count} to select this pokemon")
-play_2.poke_list.append(poke_dict[int(input("Please enter desired Pokemon: "))])
+pick_poke(play_1)
+pick_poke(play_2)
 
-#might change to a coin toss instead
-current_turn = play_1
 
-print()
-print("The contests have chosen and the stage is now set, may the best contestant win!")
+print("\nThe contests have chosen and the stage is now set, may the best contestant win!")
 time.sleep(3)
 
-
+#Game-play loop happens here,breaks when one player loses
 while play_1.alive == True and play_2.alive == True:
     play_start(current_turn)
+    check_poke_list()
     current_turn = play_swap(current_turn)
 
-print()
-print("We have a winner!")
+#Closeing remarks, happens after gamplay loop finishes and winner is determined
+print("\nWe have a winner!")
 time.sleep(3)
 if play_1.alive == True:
     print(f"Congratulations {play_1.name}, you are the pokemon champion!")
@@ -219,3 +280,10 @@ else:
     print(f"Congratulations {play_2.name}, you are the pokemon champion!")
 time.sleep(2)
 print("Thank you for playing Poket-Pal Champions, we hope to better this game and add more customization and polish to it in the near future!")
+
+"""
+def swap_pokemon(current_player):
+    for poke in current_player.pokelist:
+        if poke.hp == 0:
+            pass
+"""
