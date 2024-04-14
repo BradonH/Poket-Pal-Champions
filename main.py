@@ -110,6 +110,12 @@ def play_swap(current_turn):
     else:
         return play_1
 
+#prints the available selection of pokemon from a dictionary
+def pick_poke(player):
+    print(f"{player.name}, please select a pokemon, the first pokemon selected will be your primary pokemon (enter id number of pokemon wanted)\n")
+    for i in range(len(poke_dict)):
+        print(f"{i+1}. {str(poke_dict[i+1].name)}, press {i+1} to select this pokemon")
+    player.poke_list.append(poke_dict[int(input("\nPlease enter desired Pokemon: "))])
 
 #This is gives the player a selection of actions available at the start of each turn
 def play_start(current_turn):
@@ -234,14 +240,6 @@ def check_poke_list():
     if count2 == play_2_poke:
         play_2.alive = False
         return play_2.alive
-
-
-#prints the available selection of pokemon from a dictionary
-def pick_poke(player):
-    print(f"{player.name}, please select a pokemon, the first pokemon selected will be your primary pokemon (enter id number of pokemon wanted)\n")
-    for i in range(len(poke_dict)):
-        print(f"{i+1}. {str(poke_dict[i+1].name)}, press {i+1} to select this pokemon")
-    player.poke_list.append(poke_dict[int(input("\nPlease enter desired Pokemon: "))])
 
 #Intro to game begins here
 
