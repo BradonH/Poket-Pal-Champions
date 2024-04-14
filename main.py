@@ -27,7 +27,7 @@ poke_dict = {1: charmander,
 
 
 #create abilities object
-#Normal
+#Normal                     dmg| acy| buff| debuff| name
 tackle = abilities.Abilities(20, 95, None, None, "tackle")
 bite = abilities.Abilities(30, 75, None, None, "bite")
 slash = abilities.Abilities(25, 85, None, None, "slash")
@@ -36,20 +36,19 @@ bash = abilities.Abilities(25, 80, None, None, "bash")
 tail_whip = abilities.Abilities(25, 90, None, None, "tail whip")
 
 #buffs
-sword_dance = abilities.Abilities(0, 100, "SWRD_DNC", None, "sword dance")
-harden = abilities.Abilities(0, 100, None, "HRDN", "harden")
-#agility raises the user's damage 
-agility = abilities.Abilities(0, 100,"AGLTY", None, "agility")
-frustration = abilities.Abilities(0, 100, "FSTRIN", None, "frustrartion")
+sword_dance = abilities.Abilities(0, 100, "SWRD_DNC", None, "sword dance") #raise damage
+harden = abilities.Abilities(0, 100, "HRDN", None, "harden") #raise defense
+agility = abilities.Abilities(0, 100,"AGLTY", None, "agility") #raise damage
+frustration = abilities.Abilities(0, 100, "FSTRIN", None, "frustration") #slightly raise damage and defense
 
 #Debuffs
-poison = abilities.Abilities(0, 100, None, "POSN", "poison")
-drowsy = abilities.Abilities(0, 100, None, "DRSY", "drowsy")
-burn = abilities.Abilities(0, 100, "BURN", "burn")
+poison = abilities.Abilities(0, 100, None, "POSN", "poison") #adds a consitantly dealt damage
+drowsy = abilities.Abilities(0, 100, None, "DRSY", "drowsy") #lowers opponent damage
+burn = abilities.Abilities(0, 100, None, "BURN", "burn") ##adds a smaller consitantly dealt damage
 
 
 #specials moves
-vine_whip = abilities.Abilities(25, 90, None, None, "vine whip")
+vine_whip = abilities.Abilities(25, 90, None, "POSN", "vine whip")
 ember = abilities.Abilities(25, 85, None, "BURN", "ember")
 thunder_shock = abilities.Abilities(30, 75, None, None, "thunder shock")
 aqua_jet = abilities.Abilities(30, 80, None, None, "aqua jet")
@@ -64,7 +63,7 @@ charmander.move_set.append(ember)
 
 squirtle.move_set.append(bite)
 squirtle.move_set.append(bash)
-squirtle.move_set.append(poison)
+squirtle.move_set.append(harden)
 squirtle.move_set.append(aqua_jet)
 
 bulbasaur.move_set.append(slash)
@@ -125,7 +124,7 @@ def play_start(current_turn):
         attack()
     else:
         print("input not defined please input an avaliable id number")
-        play_start()
+        play_start(current_turn)
 
 
 #if items are chosen during play_start, this will show what items are available
@@ -156,9 +155,11 @@ def use_item(selection):
 """
 
 
-
-#def buff_debuff_value_calculations():
-#    current_turn.poke_list[current_turn.primary].atk = current_turn.poke_list[current_turn.primary].calc_value_atk()
+#the idea is that this will recalculate a pokemons stats at the begining of each turn to account for any new buffs or debuffs
+def buff_debuff_value_calculations(current_turn):
+    current_turn.poke_list[current_turn.primary].atk = current_turn.poke_list[current_turn.primary].calc_value_atk()
+    current_turn.poke_list[current_turn.primary].defense = current_turn.poke_list[current_turn.primary].calc_value_defense()
+    current_turn.poke_list[current_turn.primary].hp = current_turn.poke_list[current_turn.primary].calc_value_hp()
 
 
 #lists available attack options,and takes selection
@@ -201,8 +202,8 @@ def damage_calc(selection):
             print(f"Hit! {opp.poke_list[opp.primary].name} has fainted!")
         else:
             print(f"Hit! {opp.poke_list[opp.primary].name} now has {str(opp.poke_list[opp.primary].hp)} remaining!")
-        opp.poke_list[opp.primary].debuff.append(dbf)
-        current_turn.poke_list[current_turn.primary].buff.append(buf)
+        opp.poke_list[opp.primary].debuff_list.append(dbf)
+        current_turn.poke_list[current_turn.primary].buff_list.append(buf)
         #if opp.poke_list[opp.primary].hp <= 0:
         #    opp.alive = False
         #    pass
@@ -302,6 +303,7 @@ time.sleep(3)
 
 #Game-play loop happens here,breaks when one player loses
 while play_1.alive == True and play_2.alive == True:
+    buff_debuff_value_calculations(current_turn)
     play_start(current_turn)
     check_poke_list()
     current_turn = play_swap(current_turn)

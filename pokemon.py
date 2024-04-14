@@ -4,49 +4,58 @@ class Poke():
     def __init__(self, name, element, hp, atk, defense):
         self.name = name
         self.element = element
+        self.base_hp = hp
         self.hp = hp
         self.atk = atk
         self.defense = defense
-        #self.P = P
-        #P stands for Power Points, essentially the stamina a pokemon has
-        #it usually knows as PP but to avoid that we'll just call it P
-        #on second thought we wont use P
         self.move_set = []
+        #this is where we will keep our buffs and debuffs so we can apply them to the pokemon
         self.buff_list = []
         self.debuff_list = []
-        #this is where we will keep our buffs and debuffs so we can apply them to the pokemon
 
 
+#gives new atk stat for the pokemon based on what buffs and debuffs the have
     def calc_value_atk(self):
         new_atk = self.atk
         for buffs in self.buff_list:
-            if buffs.buff == "SWRD_DNC":
+            if buffs == None:
+                continue
+            if buffs == "SWRD_DNC":
                 new_atk += round((self.atk * 0.15),0)
                 self.buff_list.remove(buffs)
+            if buffs == "AGLTY":
+                new_atk += round((self.atk * 0.1),0)
+                self.buff_list.remove(buffs)
+        for debuffs in self.debuff_list:
+            if debuffs == None:
+                continue
+            if debuffs == "DRSY":
+                new_atk -= round((self.atk * 0.12),0)
+                self.debuff_list.remove(debuffs)
         return new_atk
 
+
+#gives new defense stat for the pokemon based on what buffs and debuffs the have
     def calc_value_defense(self):
         new_defense = self.defense
         for buffs in self.buff_list:
-            if buffs.buff == "HRDN":
+            if buffs == None:
+                continue
+            if buffs == "HRDN":
                 new_defense += round((self.defense * 0.15),0)
                 self.buff_list.remove(buffs)
         return new_defense
 
+
+#gives new hp stat for the pokemon based on what buffs and debuffs the have
     def calc_value_hp(self):
         new_hp = self.hp
-        for buffs in self.buff_list:
-            if buffs.buff == "POSN":
-                new_hp -= round((self.hp * 0.10),0)
-            elif buffs.buff == "BURN":
-                new_hp -= round((self.hp * 0.07),0)
+        for debuffs in self.debuff_list:
+            if debuffs == None:
+                continue
+            if debuffs == "POSN":
+                new_hp -= round((self.base_hp * 0.10),0)
+            elif debuffs == "BURN":
+                new_hp -= round((self.base_hp * 0.07),0)
         return new_hp
 
-
-    #def attacks(self): idk if this should be here
-        
-
-    #def swap_pokemon(self): this is here just incase
-    #Fire Water Grass Electric Water Normal
-    # def moves(self):
-        # if self.element == "Normal":
