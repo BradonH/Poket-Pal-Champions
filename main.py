@@ -9,20 +9,20 @@ import random
 
 #create pokemon objects
 charmander = pokemon.Poke("Charmander", "Fire", 45, 53, 45)
-
 squirtle = pokemon.Poke("Squirtle", "Water", 50, 48, 65)
-
 bulbasaur = pokemon.Poke("Bulbasuar", "Grass", 50, 50, 50)
-
-#pikachu = pokemon.Poke("Pikachu", "Electric", 40, 65, 40)
-
-#snorlax = pokemon.Poke("Snorlax", "Normal", 85, 30, 45)
-
-#magikarp = pokemon.Poke("Magikarp", "Water", 60, 20, 50)
+pikachu = pokemon.Poke("Pikachu", "Electric", 40, 65, 40)
+snorlax = pokemon.Poke("Snorlax", "Normal", 85, 30, 45)
+magikarp = pokemon.Poke("Magikarp", "Water", 60, 20, 50)
 
 #Put all pokemon objects into a dictionary to be called
 poke_dict = {1: charmander,
-             2: squirtle,}
+             2: squirtle,
+             3: bulbasaur,
+             4: pikachu,
+             5: snorlax,
+             6: magikarp,
+             }
 
 #create abilities object
 #Normal
@@ -31,20 +31,27 @@ bite = abilities.Abilities(30, 75, None, None, "bite")
 slash = abilities.Abilities(25, 85, None, None, "slash")
 slam = abilities.Abilities(35, 70, None, None, "slam")
 bash = abilities.Abilities(25, 80, None, None, "bash")
+tail_whip = abilities.Abilities(25, 90, None, None, "tail whip")
 
 #buffs
 sword_dance = abilities.Abilities(0, 100, "SWRD_DNC", None, "sword dance")
 harden = abilities.Abilities(0, 100, None, "HRDN", "harden")
+#agility raises the user's damage 
+agility = abilities.Abilities(0, 100,"AGLTY", None, "agility")
+frustration = abilities.Abilities(0, 100, "FSTRIN", None, "frustrartion")
 
 #Debuffs
 poison = abilities.Abilities(0, 100, None, "POSN", "poison")
 drowsy = abilities.Abilities(0, 100, None, "DRSY", "drowsy")
 
-#specials
-# thunderbolt
-# water_jet
+
+#specials moves
 vine_whip = abilities.Abilities(25, 90, None, None, "vine whip")
 ember = abilities.Abilities(25, 85, None, "BURN", "ember")
+thunder_shock = abilities.Abilities(30, 75, None, None, "thunder shock")
+aqua_jet = abilities.Abilities(30, 80, None, None, "aqua jet")
+pulverizing_pancake = abilities.Abilities(25, 90, None, None, "pulverizing pancake")
+splash = abilities.Abilities(500, 2, None, None, "slash")
 
 #append
 charmander.move_set.append(tackle)
@@ -55,8 +62,27 @@ charmander.move_set.append(ember)
 squirtle.move_set.append(bite)
 squirtle.move_set.append(bash)
 squirtle.move_set.append(poison)
-squirtle.move_set.append(vine_whip)
+squirtle.move_set.append(aqua_jet)
 
+bulbasaur.move_set.append(slash)
+bulbasaur.move_set.append(bite)
+bulbasaur.move_set.append(poison)
+bulbasaur.move_set.append(vine_whip)
+
+pikachu.move_set.append(tackle)
+pikachu.move_set.append(tail_whip)
+pikachu.move_set.append(agility)
+pikachu.move_set.append(thunder_shock)
+
+snorlax.move_set.append(bash)
+snorlax.move_set.append(slam)
+snorlax.move_set.append(drowsy)
+snorlax.move_set.append(pulverizing_pancake)
+
+magikarp.move_set.append(tackle)
+magikarp.move_set.append(tail_whip)
+magikarp.move_set.append(frustration)
+magikarp.move_set.append(splash)
 
 #create item object
 # moo_moo_milk
@@ -158,7 +184,7 @@ def damage_calc(selection):
         opp = play_2
     else:
         opp = play_1
-    if random.randint(0,100) < acy:
+    if random.randint(0,100) <= acy:
         coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].atk))/100)
         def_coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].defense))/100)
         opp.poke_list[opp.primary].hp -= round((dmg * coefficient)/def_coefficient,0)
