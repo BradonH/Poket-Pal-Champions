@@ -14,7 +14,7 @@ squirtle = pokemon.Poke("Squirtle", "Water", 50, 48, 65)
 bulbasaur = pokemon.Poke("Bulbasuar", "Grass", 50, 50, 50)
 pikachu = pokemon.Poke("Pikachu", "Electric", 40, 65, 40)
 snorlax = pokemon.Poke("Snorlax", "Normal", 85, 30, 45)
-magikarp = pokemon.Poke("Magikarp", "Water", 60, 20, 50)
+magikarp = pokemon.Poke("Magikarp", "Water", 60, 25, 50)
 
 #Put all pokemon objects into a dictionary to be called
 poke_dict = {1: charmander,
@@ -53,7 +53,7 @@ ember = abilities.Abilities(25, 85, None, "BURN", "ember")
 thunder_shock = abilities.Abilities(30, 75, None, None, "thunder shock")
 aqua_jet = abilities.Abilities(30, 80, None, None, "aqua jet")
 pulverizing_pancake = abilities.Abilities(25, 90, None, None, "pulverizing pancake")
-splash = abilities.Abilities(500, 2, None, None, "slash")
+splash = abilities.Abilities(500, 2, None, None, "splash")
 
 #append
 charmander.move_set.append(tackle)

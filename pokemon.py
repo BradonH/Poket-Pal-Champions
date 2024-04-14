@@ -1,5 +1,4 @@
 import abilities
-import random
 class Poke():
     def __init__(self, name, element, hp, atk, defense):
         self.name = name
@@ -26,6 +25,8 @@ class Poke():
             if buffs == "AGLTY":
                 new_atk += round((self.atk * 0.1),0)
                 self.buff_list.remove(buffs)
+            if buffs == "FSTRIN":
+                new_atk += round((self.atk * 0.04))
         for debuffs in self.debuff_list:
             if debuffs == None:
                 continue
@@ -44,6 +45,8 @@ class Poke():
             if buffs == "HRDN":
                 new_defense += round((self.defense * 0.15),0)
                 self.buff_list.remove(buffs)
+            if buffs == "FSTRIN":
+                new_defense += round((self.defense * 0.04),0)
         return new_defense
 
 
