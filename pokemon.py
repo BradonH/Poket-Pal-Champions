@@ -20,7 +20,7 @@ class Poke():
             if buffs == None:
                 continue
             if buffs == "SWRD_DNC":
-                new_atk += round((self.atk * 0.15),0)
+                new_atk += round((self.atk * 0.18),0)
                 self.buff_list.remove(buffs)
             if buffs == "AGLTY":
                 new_atk += round((self.atk * 0.1),0)

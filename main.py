@@ -9,12 +9,12 @@ import random
 
 
 #create pokemon objects
-charmander = pokemon.Poke("Charmander", "Fire", 45, 53, 45)
+charmander = pokemon.Poke("Charmander", "Fire", 47, 53, 50)
 squirtle = pokemon.Poke("Squirtle", "Water", 50, 48, 65)
-bulbasaur = pokemon.Poke("Bulbasuar", "Grass", 50, 50, 50)
-pikachu = pokemon.Poke("Pikachu", "Electric", 40, 65, 40)
+bulbasaur = pokemon.Poke("Bulbasuar", "Grass", 53, 50, 50)
+pikachu = pokemon.Poke("Pikachu", "Electric", 45, 65, 40)
 snorlax = pokemon.Poke("Snorlax", "Normal", 85, 30, 45)
-magikarp = pokemon.Poke("Magikarp", "Water", 60, 25, 50)
+magikarp = pokemon.Poke("Magikarp", "Water", 55, 25, 50)
 
 #Put all pokemon objects into a dictionary to be called
 poke_dict = {1: charmander,
@@ -140,8 +140,14 @@ def play_start(current_turn):
     print()
     print("Please input id number of action wanted")
     print("""1.Attack          2.Items (unavaliable)
-3.Swap Pokemon (unavalible)""")
-    selection = int(input())
+3.Swap Pokemon""")
+    selection = input()
+    try:
+        selection == int(selection)
+    except:
+        print("input not defined please input an avaliable id number")
+        play_start(current_turn)
+    selection = int(selection)
     if selection == 1:
         attack()
     elif selection == 3:
@@ -228,20 +234,20 @@ def damage_calc(selection):
             print(f"Hit! {opp.poke_list[opp.primary].name} now has {str(opp.poke_list[opp.primary].hp)} remaining!")
         opp.poke_list[opp.primary].debuff_list.append(dbf)
         current_turn.poke_list[current_turn.primary].buff_list.append(buf)
-        #if opp.poke_list[opp.primary].hp <= 0:
-        #    opp.alive = False
-        #    pass
-        #else:
-        #    pass
+        if opp.poke_list[opp.primary].hp <= 0:
+            check_poke_list()
+            swap_pokemon(opp)
     else:
         print("The attack missed!")
 
 
 #a function to swap pokemon during battle or when one pokemon fainted
 def swap_pokemon(current_player):
+    if play_1.alive == False or play_2.alive == False:
+        return
     available_pokemon = []
     for i in range(len(current_player.poke_list)):
-        if current_player.poke_list[i].hp == 0:
+        if current_player.poke_list[i].hp <= 0:
             continue
         elif i == current_player.primary:
             continue
@@ -257,6 +263,7 @@ def swap_pokemon(current_player):
         print("Enter a valid id")
         swap_pokemon(current_player)
         return 
+    new_primary = int(new_primary)
     if new_primary not in available_pokemon:
         print("Enter a valid id")
         swap_pokemon(current_player)
@@ -360,4 +367,3 @@ else:
     print(f"Congratulations {play_2.name}, you are the pokemon champion!")
 time.sleep(2)
 print("Thank you for playing Poket-Pal Champions, we hope to better this game and add more customization and polish to it in the near future!")
-
