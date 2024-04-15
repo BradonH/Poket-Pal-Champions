@@ -113,22 +113,24 @@ def play_swap(current_turn):
 #prints the available selection of pokemon from a dictionary
 def pick_poke(player):
     print(f"{player.name}, please select a pokemon, the first pokemon selected will be your primary pokemon (enter id number of pokemon wanted)\n")
-    for i in range(len(poke_dict)):
-        print(f"{i+1}. {str(poke_dict[i+1].name)}, press {i+1} to select this pokemon")
-    test = input("\nPlease enter desired Pokemon: ")
+    for num_poke in range(1,4):
+        print(f"please select pokemon in spot \"{str(num_poke)}\"")
+        for i in range(len(poke_dict)):
+            print(f"{i+1}. {str(poke_dict[i+1].name)}, press {i+1} to select this pokemon")
+        test = input("\nPlease enter desired Pokemon: ")
 
-    try:
-        test = int(test)
-    except:
-        print("Please enter a valid id number")
-        pick_poke(player)
-        return
+        try:
+            test = int(test)
+        except:
+            print("Please enter a valid id number")
+            pick_poke(player)
+            return
 
-    if test > len(poke_dict) or test < 1:
-        print("Please enter a valid id number")
-        pick_poke(player)
-        return
-    player.poke_list.append(poke_dict[test])
+        if test > len(poke_dict) or test < 1:
+            print("Please enter a valid id number")
+            pick_poke(player)
+            return
+        player.poke_list.append(poke_dict[test])
 
 
 #This is gives the player a selection of actions available at the start of each turn
@@ -194,7 +196,7 @@ def attack():
     selection = int(input())
     if selection != 1 and selection != 2 and selection != 3 and selection != 4:
         if selection == 5:
-            play_start()
+            play_start(current_turn)
         else:
             print("please select an available id")
             attack()
@@ -297,7 +299,7 @@ print(
 time.sleep(3)
 print()
 print("Greetings, fellow trainers! Welcome to the arena of Poket-Pal Champions, where epic battles await.")
-print("In this thrilling two-player showdown, each trainer will carefully choose thier Pokemon and strategically aquire items from the shop. These formidable creatures will clash in epic battles until one succums to defeat by fainting.")
+print("In this thrilling two-player showdown, each trainer will carefully choose their three Pokemon and strategically aquire items from the shop. These formidable creatures will clash in epic battles until one succums to defeat by fainting.")
 print("In the heat of battle, players will have the option to strategically swap Pokemon (available in future versions) and employ items for tatical advantage (also forthcoming). Once all of a player's Pokemon are exhausted, victory will be claimed by the remaining trainer!!")
 print()
 print("To continue hit enter...")
