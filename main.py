@@ -144,6 +144,8 @@ def play_start(current_turn):
     selection = int(input())
     if selection == 1:
         attack()
+    elif selection == 3:
+        swap_pokemon(current_turn)
     else:
         print("input not defined please input an avaliable id number")
         play_start(current_turn)
@@ -234,6 +236,33 @@ def damage_calc(selection):
     else:
         print("The attack missed!")
 
+
+#a function to swap pokemon during battle or when one pokemon fainted
+def swap_pokemon(current_player):
+    available_pokemon = []
+    for i in range(len(current_player.poke_list)):
+        if current_player.poke_list[i].hp == 0:
+            continue
+        elif i == current_player.primary:
+            continue
+        else:
+            available_pokemon.append(i+1)
+            print("Your available pokemon:")
+            print(f'{i+1}. {str(current_player.poke_list[i].name)}')
+    new_primary = input("\nPlease select desire pokemon to switch to:")
+
+    try:
+        new_primary == int(new_primary)
+    except:
+        print("Enter a valid id")
+        swap_pokemon(current_player)
+        return 
+    if new_primary not in available_pokemon:
+        print("Enter a valid id")
+        swap_pokemon(current_player)
+        return
+    else:
+        current_player.primary = (new_primary - 1)
 
 
 #I run through every pokemon in the lists of both players here to determine if one player loses
@@ -332,9 +361,3 @@ else:
 time.sleep(2)
 print("Thank you for playing Poket-Pal Champions, we hope to better this game and add more customization and polish to it in the near future!")
 
-"""
-def swap_pokemon(current_player):
-    for poke in current_player.pokelist:
-        if poke.hp == 0:
-            pass
-"""
