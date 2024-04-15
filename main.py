@@ -190,7 +190,7 @@ def attack():
     print()
     print("Please input id number of attack wanted")
     print(f"""1.{current_turn.poke_list[current_turn.primary].move_set[0].name}          2.{current_turn.poke_list[current_turn.primary].move_set[1].name}
-3.{current_turn.poke_list[current_turn.primary].move_set[2].name}                4.{current_turn.poke_list[current_turn.primary].move_set[3].name}
+3.{current_turn.poke_list[current_turn.primary].move_set[2].name}           4.{current_turn.poke_list[current_turn.primary].move_set[3].name}
 5. Return to action selection menu""")
     print()
     selection = int(input())
