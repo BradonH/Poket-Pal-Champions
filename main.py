@@ -115,7 +115,21 @@ def pick_poke(player):
     print(f"{player.name}, please select a pokemon, the first pokemon selected will be your primary pokemon (enter id number of pokemon wanted)\n")
     for i in range(len(poke_dict)):
         print(f"{i+1}. {str(poke_dict[i+1].name)}, press {i+1} to select this pokemon")
-    player.poke_list.append(poke_dict[int(input("\nPlease enter desired Pokemon: "))])
+    test = input("\nPlease enter desired Pokemon: ")
+
+    try:
+        test = int(test)
+    except:
+        print("Please enter a valid id number")
+        pick_poke(player)
+        return
+
+    if test > len(poke_dict) or test < 1:
+        print("Please enter a valid id number")
+        pick_poke(player)
+        return
+    player.poke_list.append(poke_dict[test])
+
 
 #This is gives the player a selection of actions available at the start of each turn
 def play_start(current_turn):
