@@ -5,8 +5,17 @@ import player
 import time
 import random
 
-#items do not work yet and each player only has one pokemon in each battle
+#items and buffs now work and multiple pokemon are on each team
 
+#before going through code, yes we know lots of this is badly coded, yes we know some stuff doesnt make sense such as it it redundant 
+#or one line in a function might not doing anything. this is due to errors that might have popped up and were fixed, leaving artifacts
+#of old code that we were unsure wether getting rid of it wouldve broken the code or not.
+#we had some stuff planned that we didnt get to and other stuff not planned that we ended up adding because it made sense at the time.
+#ultimately we believe that while the code is a mess we did make a suprisingly decent version of a pokemon battler especially for our skill level
+#thats our whole talk though, we had lots of fun and stress doing this
+# - Bradon & Jay
+
+#objects are instaciated here
 
 #create pokemon objects
 charmander = pokemon.Poke("Charmander", "Fire", 47, 53, 50)
@@ -22,7 +31,7 @@ poke_dict = {1: charmander,
              3: bulbasaur,
              4: pikachu,
              5: snorlax,
-             6: magikarp,
+             6: magikarp
              }
 
 
@@ -44,7 +53,7 @@ frustration = abilities.Abilities(0, 100, "FSTRIN", None, "frustration") #slight
 #Debuffs
 poison = abilities.Abilities(0, 100, None, "POSN", "poison") #adds a consitantly dealt damage
 drowsy = abilities.Abilities(0, 100, None, "DRSY", "drowsy") #lowers opponent damage
-burn = abilities.Abilities(0, 100, None, "BURN", "burn") ##adds a smaller consitantly dealt damage
+burn = abilities.Abilities(0, 100, None, "BURN", "burn") #adds a smaller consitantly dealt damage
 
 
 #specials moves
@@ -87,9 +96,9 @@ magikarp.move_set.append(frustration)
 magikarp.move_set.append(splash)
 
 #create item object
-# moo_moo_milk
+moo_moo_milk = item.Item("Moo Moo Milk", 100, None, None)
 # cure
-# pure_water
+pure_water = item.Item("Pure Water", 20, None, None)
 # revive
 
 
@@ -100,10 +109,18 @@ play_2 = player.Player()
 
 ### THIS IS WHERE THE FUNCTIONS ARE ###
 
+#gives the player the predetermined items
+def give_player_items():
+    play_1.items.append(moo_moo_milk)
+    play_1.items.append(pure_water)
+    play_1.items.append(pure_water)
+    play_2.items.append(moo_moo_milk)
+    play_2.items.append(pure_water)
+    play_2.items.append(pure_water)
 
 #Current turn is defined here
 current_turn = play_1
-#Play swap cahnges the value of current turn, allowing a turn based game loop
+#Play swap changes the value of current turn, allowing a turn based game loop
 def play_swap(current_turn):
     if current_turn == play_1:
         return play_2
@@ -150,6 +167,8 @@ def play_start(current_turn):
     selection = int(selection)
     if selection == 1:
         attack()
+    elif selection == 2:
+        item_selection()
     elif selection == 3:
         swap_pokemon(current_turn)
     else:
@@ -165,24 +184,42 @@ def item_selection():
         play_start(current_turn)
     else:
         counter = 0
-        print("\n Please select item to use\n")
+        print("\nPlease select item to use\n")
         for item in current_turn.items:
             counter += 1
-            print(f"{str(counter)}. {str(item)}")
-        print(f"{str(counter+1)}")
+            print(f"{str(counter)}. {str(item.name)}")
+        picked_item = input("\nEnter item id: \n")
+        try:
+            picked_item == int(picked_item)
+        except:
+            print("\nThis is not a valid item!\n")
+            play_start(current_turn)
+        picked_item = int(picked_item)
+        use_item(picked_item)
 
-#this USES the selected item i first need to select the item to know what data i will be working with
-"""
+
+
+
+#this USES the selected item and applies the effects of it
 def use_item(selection):
-    if selection > len(current_turn.items) or type(selection) != type(int(1)):
+    if selection > len(current_turn.items) or type(selection) != type(int(1)) or selection <= 0:
         print("This is not a valid item!")
         time.sleep(1)
         play_start(current_turn)
     else:
-        if item.heal != 0:
-            current_turn.poke_list[current_turn.primary].hp += item.heal
-        elif item.
-"""
+        chosen_item = current_turn.items[selection-1]
+        hp_check = current_turn.poke_list[current_turn.primary].hp + chosen_item.heal
+        if chosen_item.heal != 0:
+            if hp_check > current_turn.poke_list[current_turn.primary].max_hp:
+                current_turn.poke_list[current_turn.primary].hp = current_turn.poke_list[current_turn.primary].max_hp
+            else:
+                current_turn.poke_list[current_turn.primary].hp += chosen_item.heal
+        elif chosen_item.buff != None:
+            current_turn.poke_list[current_turn.primary].buff_list.append(item.buff)
+        elif chosen_item.debuff != None:
+            current_turn.poke_list[current_turn.primary].debuff_list.append(item.debuff)
+        current_turn.items.remove(chosen_item)
+
 
 
 #the idea is that this will recalculate a pokemons stats at the begining of each turn to account for any new buffs or debuffs
@@ -201,7 +238,13 @@ def attack():
 3.{current_turn.poke_list[current_turn.primary].move_set[2].name}           4.{current_turn.poke_list[current_turn.primary].move_set[3].name}
 5. Return to action selection menu""")
     print()
-    selection = int(input())
+    selection = input()
+    try:
+        selection == int(selection)
+    except:
+        print("please select an available id")
+        attack()
+    selection = int(selection)
     if selection != 1 and selection != 2 and selection != 3 and selection != 4:
         if selection == 5:
             play_start(current_turn)
@@ -256,7 +299,6 @@ def swap_pokemon(current_player):
             print("Your available pokemon:")
             print(f'{i+1}. {str(current_player.poke_list[i].name)}')
     new_primary = input("\nPlease select desire pokemon to switch to:")
-
     try:
         new_primary == int(new_primary)
     except:
@@ -294,7 +336,6 @@ def check_poke_list():
         return play_2.alive
 
 #Intro to game begins here
-
 
 print("\nWelcome to...")
 time.sleep(1)
@@ -347,6 +388,7 @@ input()
 pick_poke(play_1)
 pick_poke(play_2)
 
+give_player_items()
 
 print("\nThe contests have chosen and the stage is now set, may the best contestant win!")
 time.sleep(3)

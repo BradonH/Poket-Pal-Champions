@@ -3,7 +3,7 @@ class Poke():
     def __init__(self, name, element, hp, atk, defense):
         self.name = name
         self.element = element
-        self.base_hp = hp
+        self.max_hp = hp
         self.hp = hp
         self.atk = atk
         self.defense = defense
