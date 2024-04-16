@@ -267,6 +267,7 @@ def damage_calc(selection):
         opp = play_2
     else:
         opp = play_1
+
     if random.randint(0,100) <= acy:
         coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].atk))/100)
         def_coefficient = (1 + (int(current_turn.poke_list[current_turn.primary].defense))/100)
@@ -289,6 +290,7 @@ def swap_pokemon(current_player):
     if play_1.alive == False or play_2.alive == False:
         return
     available_pokemon = []
+
     for i in range(len(current_player.poke_list)):
         if current_player.poke_list[i].hp <= 0:
             continue
@@ -299,6 +301,7 @@ def swap_pokemon(current_player):
             print("Your available pokemon:")
             print(f'{i+1}. {str(current_player.poke_list[i].name)}')
     new_primary = input("\nPlease select desire pokemon to switch to:")
+
     try:
         new_primary == int(new_primary)
     except:
@@ -306,6 +309,7 @@ def swap_pokemon(current_player):
         swap_pokemon(current_player)
         return 
     new_primary = int(new_primary)
+
     if new_primary not in available_pokemon:
         print("Enter a valid id")
         swap_pokemon(current_player)
@@ -403,9 +407,11 @@ while play_1.alive == True and play_2.alive == True:
 #Closeing remarks, happens after gamplay loop finishes and winner is determined
 print("\nWe have a winner!")
 time.sleep(3)
+
 if play_1.alive == True:
     print(f"Congratulations {play_1.name}, you are the pokemon champion!")
 else:
     print(f"Congratulations {play_2.name}, you are the pokemon champion!")
+
 time.sleep(2)
 print("Thank you for playing Poket-Pal Champions, we hope to better this game and add more customization and polish to it in the near future!")
