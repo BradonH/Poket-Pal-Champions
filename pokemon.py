@@ -57,8 +57,8 @@ class Poke():
             if debuffs == None:
                 continue
             if debuffs == "POSN":
-                new_hp -= round((self.base_hp * 0.10),0)
+                new_hp -= round((self.max_hp * 0.10),0)
             elif debuffs == "BURN":
-                new_hp -= round((self.base_hp * 0.07),0)
+                new_hp -= round((self.max_hp * 0.07),0)
         return new_hp
 
