@@ -156,15 +156,14 @@ def play_start(current_turn):
     print(f"It is currently {current_turn.name}'s turn")
     print()
     print("Please input id number of action wanted")
-    print("""1.Attack          2.Items (unavaliable)
+    print("""1.Attack          2.Items 
 3.Swap Pokemon""")
     selection = input()
     try:
-        selection == int(selection)
+        selection = int(selection)
     except:
         print("input not defined please input an avaliable id number")
         play_start(current_turn)
-    selection = int(selection)
     if selection == 1:
         attack()
     elif selection == 2:
@@ -190,11 +189,10 @@ def item_selection():
             print(f"{str(counter)}. {str(item.name)}")
         picked_item = input("\nEnter item id: \n")
         try:
-            picked_item == int(picked_item)
+            picked_item = int(picked_item)
         except:
             print("\nThis is not a valid item!\n")
             play_start(current_turn)
-        picked_item = int(picked_item)
         use_item(picked_item)
 
 
@@ -202,7 +200,7 @@ def item_selection():
 
 #this USES the selected item and applies the effects of it
 def use_item(selection):
-    if selection > len(current_turn.items) or type(selection) != type(int(1)) or selection <= 0:
+    if selection > len(current_turn.items) or selection <= 0:
         print("This is not a valid item!")
         time.sleep(1)
         play_start(current_turn)
@@ -240,11 +238,10 @@ def attack():
     print()
     selection = input()
     try:
-        selection == int(selection)
+        selection = int(selection)
     except:
         print("please select an available id")
         attack()
-    selection = int(selection)
     if selection != 1 and selection != 2 and selection != 3 and selection != 4:
         if selection == 5:
             play_start(current_turn)
@@ -303,12 +300,11 @@ def swap_pokemon(current_player):
     new_primary = input("\nPlease select desire pokemon to switch to:")
 
     try:
-        new_primary == int(new_primary)
+        new_primary = int(new_primary)
     except:
         print("Enter a valid id")
         swap_pokemon(current_player)
         return 
-    new_primary = int(new_primary)
 
     if new_primary not in available_pokemon:
         print("Enter a valid id")
@@ -394,7 +390,7 @@ pick_poke(play_2)
 
 give_player_items()
 
-print("\nThe contests have chosen and the stage is now set, may the best contestant win!")
+print("\nThe contestants have chosen and the stage is now set, may the best contestant win!")
 time.sleep(3)
 
 #Game-play loop happens here,breaks when one player loses

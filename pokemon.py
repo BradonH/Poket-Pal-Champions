@@ -13,7 +13,7 @@ class Poke():
         self.debuff_list = []
 
 
-#gives new atk stat for the pokemon based on what buffs and debuffs the have
+#gives new atk stat for the pokemon based on what buffs and debuffs they have
     def calc_value_atk(self):
         new_atk = self.atk
         for buffs in self.buff_list:
@@ -26,7 +26,8 @@ class Poke():
                 new_atk += round((self.atk * 0.1),0)
                 self.buff_list.remove(buffs)
             if buffs == "FSTRIN":
-                new_atk += round((self.atk * 0.04))
+                new_atk += round((self.atk * 0.04),0)
+
         for debuffs in self.debuff_list:
             if debuffs == None:
                 continue
@@ -36,7 +37,7 @@ class Poke():
         return new_atk
 
 
-#gives new defense stat for the pokemon based on what buffs and debuffs the have
+#gives new defense stat for the pokemon based on what buffs and debuffs they have
     def calc_value_defense(self):
         new_defense = self.defense
         for buffs in self.buff_list:
@@ -50,7 +51,7 @@ class Poke():
         return new_defense
 
 
-#gives new hp stat for the pokemon based on what buffs and debuffs the have
+#gives new hp stat for the pokemon based on what buffs and debuffs they have
     def calc_value_hp(self):
         new_hp = self.hp
         for debuffs in self.debuff_list:
