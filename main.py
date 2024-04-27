@@ -283,35 +283,39 @@ def damage_calc(selection):
 
 
 #a function to swap pokemon during battle or when one pokemon fainted
-def swap_pokemon(current_player):
+def swap_pokemon(current_turn):
     if play_1.alive == False or play_2.alive == False:
         return
     available_pokemon = []
 
-    for i in range(len(current_player.poke_list)):
-        if current_player.poke_list[i].hp <= 0:
+    for i in range(len(current_turn.poke_list)):
+        if current_turn.poke_list[i].hp <= 0:
             continue
-        elif i == current_player.primary:
+        elif i == current_turn.primary:
             continue
         else:
             available_pokemon.append(i+1)
             print("Your available pokemon:")
-            print(f'{i+1}. {str(current_player.poke_list[i].name)}')
-    new_primary = input("\nPlease select desire pokemon to switch to:")
-
-    try:
-        new_primary = int(new_primary)
-    except:
-        print("Enter a valid id")
-        swap_pokemon(current_player)
-        return 
-
-    if new_primary not in available_pokemon:
-        print("Enter a valid id")
-        swap_pokemon(current_player)
-        return
+            print(f'{i+1}. {str(current_turn.poke_list[i].name)}')
+    if len(available_pokemon) == 0:
+        print("No available pokemon")
+        play_start(current_turn)
     else:
-        current_player.primary = (new_primary - 1)
+        new_primary = input("\nPlease select desire pokemon to switch to:")
+
+        try:
+            new_primary = int(new_primary)
+        except:
+            print("Enter a valid id")
+            swap_pokemon(current_turn)
+            return 
+
+        if new_primary not in available_pokemon:
+            print("Enter a valid id")
+            swap_pokemon(current_turn)
+            return
+        else:
+            current_turn.primary = (new_primary - 1)
 
 
 #I run through every pokemon in the lists of both players here to determine if one player loses
