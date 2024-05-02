@@ -380,8 +380,8 @@ print(
 time.sleep(3)
 print()
 print("Greetings, fellow trainers! Welcome to the arena of Poket-Pal Champions, where epic battles await.")
-print("In this thrilling two-player showdown, each trainer will carefully choose their three Pokemon and strategically aquire items from the shop. These formidable creatures will clash in epic battles until one succums to defeat by fainting.")
-print("In the heat of battle, players will have the option to strategically swap Pokemon (available in future versions) and employ items for tatical advantage (also forthcoming). Once all of a player's Pokemon are exhausted, victory will be claimed by the remaining trainer!!")
+print("In this thrilling two-player showdown, each trainer will carefully choose their three Pokemon. These formidable creatures will clash in epic battles until one succumbs to defeat by fainting.")
+print("In the heat of battle, players will have the option to strategically swap Pokemon and employ items for tatical advantage. Once all of a player's Pokemon are exhausted, victory will be claimed by the remaining trainer!!")
 print()
 print("To continue hit enter...")
 
